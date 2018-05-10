@@ -1,0 +1,53 @@
+#https://github.com/moul/docker-binfmt-register/blob/master/Dockerfile
+#https://blog.hypriot.com/post/setup-simple-ci-pipeline-for-arm-images/
+#To run on x64:
+#docker run --rm --privileged multiarch/qemu-user-static:register --reset > qemu-arm-static
+FROM resin/rpi-raspbian:stretch as builder
+#RUN [ "cross-build-start" ]
+RUN apt-get update -qq && apt-get install -y apt-utils
+RUN apt-get install -y \
+    apt-utils \
+    git \
+    cmake \
+    make \
+    g++ \
+    bison \
+    flex \
+    mariadb-client \
+    build-essential \
+    libmariadbclient-dev \
+    libmariadbclient18
+RUN mkdir /build && cd /build \
+&& git clone https://github.com/manticoresoftware/manticore.git --single-branch \
+&& cd manticore && git checkout tags/2.6.3 \
+&& mkdir -p build && cd build \
+&& cmake \
+    -D SPLIT_SYMBOLS=1 \
+    -D WITH_MYSQL=ON \
+    -D DL_MYSQL=0 \
+    -D WITH_PGSQL=OFF \
+    -D WITH_RE2=ON \
+    -D WITH_STEMMER=ON \
+    -D DISABLE_TESTING=ON \
+    -D CMAKE_INSTALL_PREFIX=/usr \
+    -D CONFFILEDIR=/etc/sphinxsearch \
+    -D SPHINX_TAG=release .. \
+&& make -j4 searchd indexer indextool
+#RUN [ "cross-build-end" ]
+FROM resin/rpi-raspbian:stretch
+#RUN [ "cross-build-start" ]
+COPY --from=builder /build/manticore/build/src/indexer /usr/bin/
+COPY --from=builder /build/manticore/build/src/indextool /usr/bin/
+COPY --from=builder /build/manticore/build/src/searchd /usr/bin/
+#COPY --from=builder /build/manticore/build/src/sphinx.conf /etc/sphinxsearch/sphinx.conf
+#VOLUME /var/lib/manticore /etc/sphinxsearch
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs ruby ruby-dev \
+    libavahi-compat-libdnssd-dev nginx libmariadbclient-dev git avahi-daemon avahi-utils nano dbus
+RUN gem install bundler
+RUN mkdir /gem_tmp
+WORKDIR /gem_tmp
+ADD Gemfile /gem_tmp/Gemfile
+ADD Gemfile.lock /gem_tmp/Gemfile.lock
+RUN bundle install
+WORKDIR /docbox
+#RUN [ "cross-build-end" ]

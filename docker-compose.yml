@@ -1,0 +1,72 @@
+
+version: '3'
+
+services:
+
+  dbserver:
+    depends_on:
+         - mysql
+         - redis
+
+    image: docbox_base_image
+
+    build:
+      context: .
+      dockerfile: Dockerfile_Rails
+
+    links:
+        - redis
+
+    volumes:
+      - ./DBServer:/docbox/DBServer
+      - ./EntryPoint_DBServer:/init
+      - ./DBServer/app_support/nginx.conf://etc/nginx/nginx.conf
+#      - /home/development/Projects/DocBox/DATA/SphinxIndex :/docbox/SphinxIndex
+#      - /home/development/Projects/DocBox/DATA/log_dbserver :/docbox/DBServer/log
+      - /home/docbox/DATA/SphinxIndex :/docbox/SphinxIndex
+      - /home/docbox/DATA/log_dbserver :/docbox/DBServer/log
+      - /var/run/dbus:/var/run/dbus
+
+    entrypoint:
+      - /init/docker-entrypoint.sh
+    ports:
+      - "8082:8082"
+
+    environment:
+      - RAILS_ENV=production
+
+  dbdaemon:
+    depends_on:
+         - mysql
+         - redis
+
+    image: docbox_base_image
+
+    links:
+        - redis
+
+    volumes:
+      - ./DBDaemon:/docbox/DBDaemon
+      - ./EntryPoint_DBDaemon:/init
+      - /home/docbox/DATA/log_dbdaemon :/docbox/DBDaemon/log
+
+    entrypoint:
+#      - ./docker_rails/docker-entrypoint.sh
+      - /init/docker-entrypoint.sh
+
+    environment:
+      - RAILS_ENV=production
+
+
+  mysql:
+#    image: jsurf/rpi-mariadb
+    image: mariadb
+    volumes:
+      - /home/docbox/DATA/Database:/var/lib/mysql
+
+    environment:
+      MYSQL_ROOT_PASSWORD: martin
+
+  redis:
+    image: knjcode/rpi-redis
+#     image: "redis:alpine"
