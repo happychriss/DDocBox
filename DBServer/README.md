@@ -93,7 +93,7 @@ static routers=192.168.1.1 # enter your gateway IP address
 ### Setup the user ‘docbox’
 
 The installation instructions is assuming a user ‘docbox’ and a folder
-structure as //home/docbox for the file system.
+structure as //home/docbox/DDocBox for the file system.
 
 ```bash
 sudo adduser docbox
@@ -176,7 +176,7 @@ This is only needed when the IP address of the Pi does not start with
 Update below file with your subnet (last 3 group of your PI’s IP)
 
 ```bash
-File: /home/docbox/DBServer/docbox.god.rb
+File: /home/docbox/DDocBox/DBServer/docbox.god.rb
 SUBNET = “192.168.1”
 ```
 
@@ -191,7 +191,7 @@ sudo mkdir //data
 sudo chown docbox //data
 cd //data
 mkdir docstore  #//data/docstore is folder for documents stored locally
-cd /home/docbox/DBServer
+cd /home/docbox/DDocBox/DBServer
 ln -s //data/docstore/ docstore
 ```
 
@@ -255,7 +255,7 @@ gpg --gen-key
 Make sure to backup the key-pair, so you can encrypt your data when
 downloading it from Amazon S3, the key is stored in the following folder
 ```bash
-/home/docbox/.gnupg
+/home/docbox/DDocBox/.gnupg
 ```
 
 The email address used for the key needs to be updated in the file  
@@ -326,8 +326,8 @@ bundle install
 After completing the installation you should have the following folder
 structure
 ```bash
-home/docbox/DBServer #hosts the Web-server
-home/docbox/DBDaemon # hosts the working processes
+home/docbox/DDocBox/DBServer #hosts the Web-server
+home/docbox/DDocBox/DBDaemon # hosts the working processes
 //data # host the scanned images
 ```
 

@@ -17,7 +17,7 @@ SUBNET="172.17.0.0"
 # #
 # #God.watch do |w|
 # #  w.start_grace   = 10.seconds
-# #  w.env           = {'BUNDLE_GEMFILE' => '//home/docbox/DBDaemons/Gemfile'}
+# #  w.env           = {'BUNDLE_GEMFILE' => '//home/docbox/DDocBox/DBDaemons/Gemfile'}
 # #  w.name 	  ='hardware_daemon'
 # #  w.group         ='docbox'
 # #  w.dir           = CDDAEMON_ROOT

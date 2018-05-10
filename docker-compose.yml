@@ -23,8 +23,8 @@ services:
       - ./DBServer/app_support/nginx.conf://etc/nginx/nginx.conf
 #      - /home/development/Projects/DocBox/DATA/SphinxIndex :/docbox/SphinxIndex
 #      - /home/development/Projects/DocBox/DATA/log_dbserver :/docbox/DBServer/log
-      - /home/docbox/DATA/SphinxIndex :/docbox/SphinxIndex
-      - /home/docbox/DATA/log_dbserver :/docbox/DBServer/log
+      - /home/docbox/DDocBox/DATA/SphinxIndex :/docbox/SphinxIndex
+      - /home/docbox/DDocBox/DATA/log_dbserver :/docbox/DBServer/log
       - /var/run/dbus:/var/run/dbus
 
     entrypoint:
@@ -48,7 +48,7 @@ services:
     volumes:
       - ./DBDaemon:/docbox/DBDaemon
       - ./EntryPoint_DBDaemon:/init
-      - /home/docbox/DATA/log_dbdaemon :/docbox/DBDaemon/log
+      - /home/docbox/DDocBox/DATA/log_dbdaemon :/docbox/DBDaemon/log
 
     entrypoint:
 #      - ./docker_rails/docker-entrypoint.sh
@@ -62,7 +62,7 @@ services:
 #    image: jsurf/rpi-mariadb
     image: mariadb
     volumes:
-      - /home/docbox/DATA/Database:/var/lib/mysql
+      - /home/docbox/DDocBox/DATA/Database:/var/lib/mysql
 
     environment:
       MYSQL_ROOT_PASSWORD: martin
