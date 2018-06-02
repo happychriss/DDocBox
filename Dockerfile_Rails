@@ -3,7 +3,7 @@
 #To run on x64:
 #docker run --rm --privileged multiarch/qemu-user-static:register --reset > qemu-arm-static
 FROM resin/rpi-raspbian:stretch as builder
-#RUN [ "cross-build-start" ]
+RUN [ "cross-build-start" ]
 RUN apt-get update -qq && apt-get install -y apt-utils
 RUN apt-get install -y \
     apt-utils \
@@ -33,21 +33,28 @@ RUN mkdir /build && cd /build \
     -D CONFFILEDIR=/etc/sphinxsearch \
     -D SPHINX_TAG=release .. \
 && make -j4 searchd indexer indextool
-#RUN [ "cross-build-end" ]
+RUN [ "cross-build-end" ]
 FROM resin/rpi-raspbian:stretch
-#RUN [ "cross-build-start" ]
+RUN [ "cross-build-start" ]
 COPY --from=builder /build/manticore/build/src/indexer /usr/bin/
 COPY --from=builder /build/manticore/build/src/indextool /usr/bin/
 COPY --from=builder /build/manticore/build/src/searchd /usr/bin/
 #COPY --from=builder /build/manticore/build/src/sphinx.conf /etc/sphinxsearch/sphinx.conf
 #VOLUME /var/lib/manticore /etc/sphinxsearch
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs ruby ruby-dev \
-    libavahi-compat-libdnssd-dev nginx libmariadbclient-dev git avahi-daemon avahi-utils nano dbus
+    libavahi-compat-libdnssd-dev nginx libmariadbclient-dev git avahi-daemon avahi-utils nano dbus libnss-mdns \
+    imagemagick poppler-utils unpaper tesseract-ocr tesseract-ocr-deu html2ps exactimage oracle-java8-jdk \
+    less sane-utils wget ghostscript usbutils
 RUN gem install bundler
 RUN mkdir /gem_tmp
-WORKDIR /gem_tmp
-ADD Gemfile /gem_tmp/Gemfile
-ADD Gemfile.lock /gem_tmp/Gemfile.lock
-RUN bundle install
+ADD DBServer/Gemfile /gem_tmp/Gemfile_DBServer
+ADD DBServer/Gemfile.lock /gem_tmp/Gemfile_DBServer.lock
+ADD DBDaemon/Gemfile /gem_tmp/Gemfile_DBDaemon
+ADD DBDaemon/Gemfile.lock /gem_tmp/Gemfile_DBDaemon.lock
+RUN bundle install --gemfile=/gem_tmp/Gemfile_DBServer
+RUN bundle install --gemfile=/gem_tmp/Gemfile_DBDaemon
 WORKDIR /docbox
-#RUN [ "cross-build-end" ]
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/vc/lib
+COPY DBDaemon DBDaemon
+COPY DBServer DBServer
+RUN [ "cross-build-end" ]

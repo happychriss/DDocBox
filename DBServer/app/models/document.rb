@@ -69,8 +69,8 @@ class Document < ActiveRecord::Base
 
   def set_delta_flag
     self.pages.update_all("delta=1")
-    Page.define_indexes
-    Page.index_delta
+#    Page.define_indexes -- not used with sphinx4.00
+#    Page.index_delta
   end
 
   def update_status_new_document

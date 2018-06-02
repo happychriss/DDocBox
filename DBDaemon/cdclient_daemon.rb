@@ -28,7 +28,7 @@ end
 
 # Tries several times to connect to the webserver
 def connect_to_webserver(drb_uri, options, web_server_uri)
-  try_counter=0; try_max= 15
+  try_counter=0; try_max= 30
 
       loop do
         begin

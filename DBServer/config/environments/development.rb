@@ -40,7 +40,6 @@ DBServer::Application.configure do
 #  ITEXT_JAVA='/home/development/Projects/itext/itext-5.3.5/itextpdf-5.3.5.jar'
 
 
-
 =begin
   Path-Variables on Development Machine:
   $LD_LIBRARY_PATH

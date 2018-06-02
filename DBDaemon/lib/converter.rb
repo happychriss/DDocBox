@@ -187,7 +187,7 @@ class Converter
 
         tika_path=File.join(Dir.pwd, "lib", "tika-app-1.4.jar")
 
-        check_program('convert'); check_program('html2ps'); check_program(tika_path) ##jar can be called directly
+        check_program('convert'); check_program('html2ps');# check_program(tika_path) ##jar can be called directly
 
         ############### Create Preview Pictures of uploaded file
 

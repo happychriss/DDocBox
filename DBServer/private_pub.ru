@@ -1,12 +1,17 @@
 # Run with: rackup private_pub.ru -s thin -E production
+require 'logger'
 require "bundler/setup"
 require "yaml"
 require "faye"
 require "private_pub"
 
 Faye::WebSocket.load_adapter('thin')
+Faye::logger=Logger.new('./log/faye.log')
+
 
 PrivatePub.load_config(File.expand_path("../config/private_pub.yml", __FILE__), ENV["RAILS_ENV"] || "development")
+
+
 run PrivatePub.faye_app
 
 
@@ -18,7 +23,7 @@ run PrivatePub.faye_app
 #
 #Enable logging.
 #
-#Ruby: Faye::Logging.log_level = :debug
+
 #JS: Faye.Logging.logLevel = 'debug'
 #
 #You should be able to see what messages are being sent and received from these logs and debug your setup.

@@ -5,5 +5,5 @@ test:
   server: "http://localhost:9292/faye"
   secret_token: "secret"
 production:
-  server: "http://localhost:9292/faye"
-  secret_token: "34563465364fasdfasdf_my_sersecret"
+  server: "http://dbserver:9292/faye"
+  secret_token: "34563465364faasdfsdf_my_sersecret"
