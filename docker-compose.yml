@@ -4,6 +4,8 @@ volumes:
   log-volume:
   sphinx-volume:
   db-volume:
+  docstore-volume:
+  assets-volume:
 
 services:
 
@@ -23,11 +25,14 @@ services:
         - redis
 
     volumes:
+      - ./DBServer:/docbox/DBServer
       - ./EntryPoint_DBServer:/init
       - ./DBServer/app_support/nginx.conf://etc/nginx/nginx.conf
       - /var/run/dbus:/var/run/dbus
       - sphinx-volume://docbox/SphinxFiles
       - log-volume://docbox/DBServer/log
+      - docstore-volume://docbox/DBServer/public/docstore
+      - assets-volume://docbox/DBServer/public/assets
 
     entrypoint:
       - /init/docker-entrypoint.sh
@@ -52,6 +57,7 @@ services:
         - redis
 
     volumes:
+      - ./DBDaemon:/docbox/DBDaemon
       - ./EntryPoint_DBDaemon:/init
       - /opt/vc/lib:/opt/vc/lib  #libmmal_core.so is used by unpaper ....
       - log-volume://docbox/DBDaemon/log
@@ -75,6 +81,7 @@ services:
 
     environment:
       MYSQL_ROOT_PASSWORD: martin
+
 
   redis:
 #    image: knjcode/rpi-redis

@@ -57,4 +57,9 @@ WORKDIR /docbox
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/vc/lib
 COPY DBDaemon DBDaemon
 COPY DBServer DBServer
+### Install Scanner
+RUN apt-get install -y sane
+RUN mkdir /usr/share/sane/epjitsu
+RUN wget https://www.josharcher.uk/static/files/2016/10/1300_0C26.nal
+RUN mv 1300_0C26.nal /usr/share/sane/epjitsu
 RUN [ "cross-build-end" ]

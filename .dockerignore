@@ -2,10 +2,12 @@
 db/*.sqlite3
 db/*.sqlite3-journal
 log/*
-DBServer/log
-DBDaemon/log
-DBServer/tmp
-DBDaemon/tmp
+DBServer/log/*
+DBServer/public/assets/*
+DBServer/public/docstore/*
+DBDaemon/log/*
+DBServer/tmp/*
+DBDaemon/tmp/*
 tmp/*
 Dockerfile
 README.rdoc
