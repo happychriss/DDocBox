@@ -19,7 +19,7 @@ services:
 
     build:
       context: .
-      dockerfile: Dockerfile_Rails
+      dockerfile: Dockerfile
 
     links:
         - redis
@@ -80,7 +80,7 @@ services:
       - db-volume:/var/lib/mysql
 
     environment:
-      MYSQL_ROOT_PASSWORD: martin
+      MYSQL_ROOT_PASSWORD: admin_docbox
 
 
   redis:

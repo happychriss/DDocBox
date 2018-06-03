@@ -1,3 +1,5 @@
+#This file will create the base-image for a RPI to run Docbox on an ARM Architecture
+# Build process is using quemu for cress plattform build:
 #https://github.com/moul/docker-binfmt-register/blob/master/Dockerfile
 #https://blog.hypriot.com/post/setup-simple-ci-pipeline-for-arm-images/
 #To run on x64:
@@ -44,7 +46,7 @@ COPY --from=builder /build/manticore/build/src/searchd /usr/bin/
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs ruby ruby-dev \
     libavahi-compat-libdnssd-dev nginx libmariadbclient-dev git avahi-daemon avahi-utils nano dbus libnss-mdns \
     imagemagick poppler-utils unpaper tesseract-ocr tesseract-ocr-deu html2ps exactimage oracle-java8-jdk \
-    less sane-utils wget ghostscript usbutils
+    less sane sane-utils wget ghostscript usbutils
 RUN gem install bundler
 RUN mkdir /gem_tmp
 ADD DBServer/Gemfile /gem_tmp/Gemfile_DBServer
@@ -55,10 +57,9 @@ RUN bundle install --gemfile=/gem_tmp/Gemfile_DBServer
 RUN bundle install --gemfile=/gem_tmp/Gemfile_DBDaemon
 WORKDIR /docbox
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/vc/lib
-COPY DBDaemon DBDaemon
-COPY DBServer DBServer
+#COPY DBDaemon DBDaemon
+#COPY DBServer DBServer
 ### Install Scanner
-RUN apt-get install -y sane
 RUN mkdir /usr/share/sane/epjitsu
 RUN wget https://www.josharcher.uk/static/files/2016/10/1300_0C26.nal
 RUN mv 1300_0C26.nal /usr/share/sane/epjitsu

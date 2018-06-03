@@ -2,6 +2,7 @@
 .idea/*
 .gnupg
 
+SphinxFiles/*
 DBServer/log/*
 DBDaemon/log/*
 DBServer/tmp/*
