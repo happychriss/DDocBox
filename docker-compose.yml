@@ -15,7 +15,10 @@ services:
          - redis
          - dbdaemon
 
-    image: donald:5000/happychriss/ddocbox_base:latest
+    # Local Docker Registry
+    # image: donald:5000/happychriss/ddocbox_base:latest
+
+    image: happychriss/ddocbox_base:latest
 
     build:
       context: .
@@ -51,7 +54,8 @@ services:
          - mysql
          - redis
 
-    image: donald:5000/happychriss/ddocbox_base:latest #use same image as for dbserver
+    #  image: donald:5000/happychriss/ddocbox_base:latest #use same image as for dbserver
+    image: happychriss/ddocbox_base:latest #use same image as for dbserver
 
     links:
         - redis

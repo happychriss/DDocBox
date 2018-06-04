@@ -91,20 +91,33 @@ ssh-copy-id docbox@pi
 to directly connect to the pi without repeating password and passphrase.
 
 
-Install Docker
+Install Docker & Docker Compose
 ---------------------------
 
-* Login with user docbox into pi 
-* Install Docker
-* Install Docker Compose
+Login with user docbox into pi 
+#### Docker
+```bash
+sudo curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh
+sudo usermod -aG docker docbox
+```
+
+####Docker Compose
+
+Log-Off and Log-On from the ssh-session (to get the user assignment active). Afterwards:
+```bash
+sudo apt-get install -y python python-pip
+pip install docker-compose
+```
+
 
 Install Docbox
 ---------------------------
-Login with user docbox.
 
 ```bash
+sudo apt-get install git
 cd
 git clone https://github.com/happychriss/DDocBox.git
+cd DDocBox
 docker-compose up
 ```
 
