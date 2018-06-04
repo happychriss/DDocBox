@@ -12,7 +12,6 @@ DBServer/db/sphinx/*
 DBServer/vendor/*
 DBServer/config/production.sphinx.conf
 DBServer/config/development.sphinx.conf
-DBServer/config/s3.yml
 
 
 ## generic files to ignore
