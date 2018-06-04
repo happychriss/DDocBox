@@ -84,13 +84,6 @@ sudo adduser docbox
 sudo adduser docbox sudo
 ```
 
-Little tip, when using ssh to connect to pi, run 
-```bash
-ssh-copy-id docbox@pi
-```
-to directly connect to the pi without repeating password and passphrase.
-
-
 Install Docker & Docker Compose
 ---------------------------
 
@@ -106,9 +99,8 @@ sudo usermod -aG docker docbox
 Log-Off and Log-On from the ssh-session (to get the user assignment active). Afterwards:
 ```bash
 sudo apt-get install -y python python-pip
-pip install docker-compose
+sudo pip install docker-compose
 ```
-
 
 Install Docbox
 ---------------------------
