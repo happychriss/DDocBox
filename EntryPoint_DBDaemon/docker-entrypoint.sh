@@ -10,6 +10,6 @@ done
 exec avahi-daemon --no-chroot &
 echo "Starting DBDaemons"
 cd DBDaemon
-god start docbox -c docbox.god.rb -D
+god start docbox -c docbox.god.rb -D --log ./log/god_dbdaemon.log
 set -e
 sleep infinity

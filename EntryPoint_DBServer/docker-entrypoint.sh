@@ -22,6 +22,7 @@ else
     rake db:seed
     rake ts:configure
     rake assets:precompile
+    echo "****** Finished initial Installation *****"
 fi
 
 
