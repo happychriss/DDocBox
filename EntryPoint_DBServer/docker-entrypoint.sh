@@ -34,6 +34,6 @@ exec avahi-daemon --no-chroot &
 echo "Sphinx Index"
 rake ts:index
 echo "Starting DBServer"
-god start docbox -c docbox.god.rb -D
+god start docbox -c docbox.god.rb -D --log ./log/god_dbserver.log
 echo "Starting Service: DONE"
 sleep infinity
